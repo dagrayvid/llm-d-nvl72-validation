@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: vllm-image-check
+  namespace: dagray-dev
+spec:
+  nodeSelector:
+    kubernetes.io/hostname: redhat-gb200-validation-gpu03
+  restartPolicy: Never
+  containers:
+  - name: check
+    image: registry.redhat.io/rhaii/vllm-cuda-rhel9:3.5.1-1788369031
+    imagePullPolicy: IfNotPresent
+    command: ["/bin/bash", "-c"]
+    args: ["sleep infinity"]
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        memory: 1Gi
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop: ["ALL"]
+      runAsNonRoot: true
+      seccompProfile:
+        type: RuntimeDefault

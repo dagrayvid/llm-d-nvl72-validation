@@ -1,0 +1,205 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: imex-multi-node-gpu-test
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: nvbandwidth-test-service-account
+  namespace: imex-multi-node-gpu-test
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: nvbandwidth-anyuid-scc-binding
+  namespace: imex-multi-node-gpu-test
+subjects:
+- kind: ServiceAccount
+  name: nvbandwidth-test-service-account
+  namespace: imex-multi-node-gpu-test
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: system:openshift:scc:anyuid
+---
+apiVersion: resource.nvidia.com/v1beta1
+kind: ComputeDomain
+metadata:
+  name: nvbandwidth-test-compute-domain
+  namespace: imex-multi-node-gpu-test
+spec:
+  numNodes: 3
+  channel:
+    resourceClaimTemplate:
+      name: nvbandwidth-test-compute-domain-channel
+---
+apiVersion: kubeflow.org/v2beta1
+kind: MPIJob
+metadata:
+  name: nvbandwidth-test
+  namespace: imex-multi-node-gpu-test
+spec:
+  slotsPerWorker: 4
+  runPolicy:
+    cleanPodPolicy: Running
+  mpiReplicaSpecs:
+    Launcher:
+      replicas: 1
+      template:
+        metadata:
+          labels:
+            nvbandwidth-test-replica: mpi-launcher
+        spec:
+          serviceAccountName: nvbandwidth-test-service-account
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                  - matchExpressions:
+                      - key: node-role.kubernetes.io/control-plane
+                        operator: Exists
+          volumes:
+            - name: kubectl-bin
+              emptyDir: {}
+          initContainers:
+            - name: install-kubectl
+              image: registry.access.redhat.com/ubi9/ubi-minimal
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  curl -L -o /work/kubectl \
+                    https://dl.k8s.io/release/v1.32.0/bin/linux/$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/')/kubectl && \
+                  chmod +x /work/kubectl
+              volumeMounts:
+                - name: kubectl-bin
+                  mountPath: /work
+            - name: wait-for-workers
+              image: registry.access.redhat.com/ubi9/ubi-minimal
+              volumeMounts:
+                  - name: kubectl-bin
+                    mountPath: /opt/kube/kubectl
+                    subPath: kubectl
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  echo "Waiting for all worker pods to be ready..."
+                  for i in 0 1 2; do
+                    until /opt/kube/kubectl get pod nvbandwidth-test-worker-$i -n imex-multi-node-gpu-test \
+                      -o jsonpath='{.status.containerStatuses[0].ready}' | grep true; do
+                      echo "nvbandwidth-test-worker-$i not ready, sleeping 2s"
+                      sleep 2
+                    done
+                  done
+                  echo "All workers ready, proceeding with mpirun"
+          containers:
+            - image: ghcr.io/nvidia/k8s-samples:nvbandwidth-d94b5488@sha256:738521bac2e1209c83f96b88578a357229cf7ccd80ad800798ea1b4eab6ded36
+              name: mpi-launcher
+              securityContext:
+                runAsUser: 1000
+              volumeMounts:
+                - name: kubectl-bin
+                  mountPath: /opt/kube/kubectl
+                  subPath: kubectl
+              command:
+                - mpirun
+              args:
+                - --bind-to
+                - core
+                - --map-by
+                - ppr:4:node
+                - -np
+                - "12"
+                - --report-bindings
+                - --mca 
+                - orte_execute_quiet 
+                - "0" 
+                - -q
+                - nvbandwidth
+                - -t
+                - multinode_device_to_device_memcpy_read_ce
+    Worker:
+      replicas: 3
+      template:
+        metadata:
+          labels:
+            nvbandwidth-test-replica: mpi-worker
+        spec:
+          serviceAccountName: nvbandwidth-test-service-account
+          affinity:
+            podAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchExpressions:
+                      - key: nvbandwidth-test-replica
+                        operator: In
+                        values:
+                          - mpi-worker
+                  topologyKey: nvidia.com/gpu.clique
+
+          volumes:
+            - name: kubectl-bin
+              emptyDir: {}
+            - name: sshd-config
+              emptyDir: {}
+
+          initContainers:
+            - name: install-kubectl
+              image: registry.access.redhat.com/ubi9/ubi-minimal
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  curl -L -o /work/kubectl \
+                    https://dl.k8s.io/release/v1.32.0/bin/linux/$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/')/kubectl && \
+                  chmod +x /work/kubectl
+              volumeMounts:
+                - name: kubectl-bin
+                  mountPath: /work
+            - name: sshd-config
+              image: ghcr.io/nvidia/k8s-samples:nvbandwidth-d94b5488@sha256:738521bac2e1209c83f96b88578a357229cf7ccd80ad800798ea1b4eab6ded36
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  mkdir -p /work/etc/ssh/
+                  ssh-keygen -A -f /work
+                  chown 1000:1000 -R /work
+                  cat <<EOF > /work/sshd_config
+                  PidFile /tmp/sshd.pid
+                  HostKey /work/etc/ssh/ssh_host_rsa_key
+                  StrictModes no
+                  Port 2222
+                  EOF
+              volumeMounts:
+                - name: sshd-config
+                  mountPath: /work
+          containers:
+            - image: ghcr.io/nvidia/k8s-samples:nvbandwidth-d94b5488@sha256:738521bac2e1209c83f96b88578a357229cf7ccd80ad800798ea1b4eab6ded36
+              name: mpi-worker
+              securityContext:
+                runAsUser: 1000
+              volumeMounts:
+                - name: kubectl-bin
+                  mountPath: /opt/kube/kubectl
+                  subPath: kubectl
+                - name: sshd-config
+                  mountPath: /work
+              command:
+                - /usr/sbin/sshd
+              args:
+                - -De
+                - -f
+                - /work/sshd_config
+              resources:
+                limits:
+                  nvidia.com/gpu: 4
+                claims:
+                  - name: compute-domain-channel
+
+          resourceClaims:
+            - name: compute-domain-channel
+              resourceClaimTemplateName: nvbandwidth-test-compute-domain-channel
+

@@ -1,0 +1,7 @@
+.DS_Store
+**/__pycache__/
+**/.cache/
+*.pyc
+
+# Keep the locally expanded result while committing its lossless .json.gz copy.
+multi-node-tp/deepseek-r1-0528/benchmarks.json

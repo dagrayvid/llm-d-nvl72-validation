@@ -1,0 +1,86 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: guidellm-scripts
+data:
+  run.sh: |
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    : "${LLMISVC_URL:?LLMISVC_URL must be set}"
+    : "${PROMPT_TOKENS:?PROMPT_TOKENS must be set}"
+    : "${OUTPUT_TOKENS:?OUTPUT_TOKENS must be set}"
+
+    guidellm run \
+      --backend "kind=openai_http,target=${LLMISVC_URL}" \
+      --profile "${GUIDELLM_PROFILE:-{\"kind\":\"concurrent\",\"streams\":[1,2,4,8]}}" \
+      --data "kind=synthetic_text,prompt_tokens=${PROMPT_TOKENS},output_tokens=${OUTPUT_TOKENS}" \
+      --constraint "kind=max_duration,seconds=${BENCHMARK_DURATION:-120}"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: guidellm
+  labels:
+    app: guidellm
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: guidellm
+  template:
+    metadata:
+      labels:
+        app: guidellm
+    spec:
+      containers:
+      - name: guidellm
+        image: ghcr.io/vllm-project/guidellm:v0.7.3
+        imagePullPolicy: IfNotPresent
+        command:
+        - /bin/bash
+        - -c
+        - |
+          mkdir -p /results/home /results/cache /results/output
+          exec sleep infinity
+        workingDir: /results
+        env:
+        - name: HOME
+          value: /results/home
+        - name: XDG_CACHE_HOME
+          value: /results/cache
+        - name: HF_HOME
+          value: /results/cache/huggingface
+        - name: GUIDELLM__DEFAULT_RESULTS_DIR
+          value: /results/output
+        resources:
+          requests:
+            cpu: "1"
+            memory: 2Gi
+          limits:
+            cpu: "8"
+            memory: 16Gi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+        volumeMounts:
+        - name: results
+          mountPath: /results
+        - name: scripts
+          mountPath: /scripts
+          readOnly: true
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      volumes:
+      - name: results
+        emptyDir: {}
+      - name: scripts
+        configMap:
+          name: guidellm-scripts
+          defaultMode: 0755

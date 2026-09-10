@@ -1,0 +1,10 @@
+# https://docs.redhat.com/en/documentation/openshift_container_platform/4.21/html/config_apis/featuregate-config-openshift-io-v1#spec-11
+apiVersion: config.openshift.io/v1
+kind: FeatureGate
+metadata:
+  name: cluster
+spec:
+  featureSet: CustomNoUpgrade
+  customNoUpgrade:
+    enabled:
+      - DRAPartitionableDevices

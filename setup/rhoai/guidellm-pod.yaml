@@ -1,0 +1,97 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: guidellm-scripts
+data:
+  guidellm-run.sh: |
+    #!/bin/bash
+    set -e
+
+    export LLMISVC_URL=http://openshift-ai-inference-openshift-default.openshift-ingress.svc.cluster.local/dagray-dev/pd
+
+    guidellm run \
+      --backend kind=openai_http,target="${LLMISVC_URL}" \
+      --profile '{"kind":"concurrent","streams":[100,50,25]}' \
+      --data kind=synthetic_text,prompt_tokens=8000,output_tokens=1000 \
+      --constraint kind=max_duration,seconds=480
+
+  curl.sh: |
+    #!/bin/bash
+    set -e
+
+    export LLMISVC_URL=http://openshift-ai-inference-openshift-default.openshift-ingress.svc.cluster.local/imex-multi-node-gpu-test/pd
+
+    curl -s "${LLMISVC_URL}/v1/chat/completions" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "model": "Qwen/Qwen3-0.6B",
+        "messages": [{
+          "role": "user",
+          "content": "What is Kubernetes and how can GPUs be used with Kubernetes?"
+        }],
+        "max_tokens": 200
+      }'
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: guidellm
+spec:
+  containers:
+  - name: guidellm
+    image: ghcr.io/vllm-project/guidellm:v0.7.3
+    imagePullPolicy: Always
+    workingDir: /results
+    env:
+    - name: USER
+      value: guidellm
+    - name: HOME
+      value: /results/home
+    - name: XDG_CACHE_HOME
+      value: /results/cache
+    - name: HF_HOME
+      value: /results/cache/huggingface
+    - name: HF_HUB_CACHE
+      value: /results/cache/huggingface/hub
+    - name: TRANSFORMERS_CACHE
+      value: /results/cache/huggingface/transformers
+    - name: GUIDELLM__DEFAULT_RESULTS_DIR
+      value: /results/output
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+        - ALL
+    resources:
+      requests:
+        cpu: "1"
+        memory: 2Gi
+    volumeMounts:
+    - name: results
+      mountPath: /results
+    - name: scripts
+      mountPath: /scripts
+      readOnly: true
+    command:
+    - /bin/bash
+    - -c
+    - |
+      mkdir -p \
+        /results/home \
+        /results/cache/huggingface/hub \
+        /results/cache/huggingface/transformers \
+        /results/output
+      exec sleep infinity
+    tty: true
+    stdin: true
+  securityContext:
+    runAsNonRoot: true
+    seccompProfile:
+      type: RuntimeDefault
+  volumes:
+  - name: results
+    emptyDir: {}
+  - name: scripts
+    configMap:
+      name: guidellm-scripts
+      defaultMode: 0755

@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dynamic-mig-samples
+---
+# Selects a 2g-equivalent slice or larger on H100/H200 and later GPUs.
+# Prefer capacity selectors over hard-coded profile names — they work across GPU generations.
+apiVersion: resource.k8s.io/v1
+kind: ResourceClaimTemplate
+metadata:
+  name: mig-claim-capacity
+  namespace: dynamic-mig-samples
+spec:
+  spec:
+    devices:
+      requests:
+      - name: mig
+        exactly:
+          deviceClassName: mig.nvidia.com
+          selectors:
+          - cel:
+              expression: |
+                device.capacity['gpu.nvidia.com'].memory.isGreaterThan(quantity("10Gi"))
+                &&
+                device.capacity['gpu.nvidia.com'].multiprocessors.isGreaterThan(quantity("14"))
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mig-capacity
+  namespace: dynamic-mig-samples
+spec:
+  restartPolicy: Never
+  securityContext:
+    runAsNonRoot: true
+    seccompProfile:
+      type: RuntimeDefault
+  containers:
+  - name: ctr
+    image: nvcr.io/nvidia/cuda:12.4.0-base-ubi9
+    command: ["sh", "-c", "nvidia-smi -L && sleep 300"]
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop: ["ALL"]
+    resources:
+      claims:
+      - name: migdev
+  resourceClaims:
+  - name: migdev
+    resourceClaimTemplateName: mig-claim-capacity

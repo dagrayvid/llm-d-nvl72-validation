@@ -1,0 +1,133 @@
+apiVersion: resource.k8s.io/v1
+kind: ResourceClaimTemplate
+metadata:
+  name: pd-gpus
+spec:
+  spec:
+    devices:
+      requests:
+        - name: gpu
+          exactly:
+            deviceClassName: gpu.nvidia.com
+            allocationMode: ExactCount
+            count: 1
+---
+apiVersion: resource.nvidia.com/v1beta1
+kind: ComputeDomain
+metadata:
+  name: pd-compute-domain
+spec:
+  # One decode pod plus two prefill pods can exercise all three GB200 nodes.
+  numNodes: 3
+  channel:
+    resourceClaimTemplate:
+      name: pd-compute-domain-channel
+---
+apiVersion: serving.kserve.io/v1alpha2
+kind: LLMInferenceService
+metadata:
+  name: pd
+spec:
+  replicas: 1
+  model:
+    uri: hf://Qwen/Qwen3-0.6B
+    name: Qwen/Qwen3-0.6B
+  router:
+    route: {}
+    gateway: {}
+    scheduler:
+      template:
+        containers:
+          - name: main
+  template:
+    resourceClaims:
+      - name: gpu
+        resourceClaimTemplateName: pd-gpus
+      - name: compute-domain-channel
+        resourceClaimTemplateName: pd-compute-domain-channel
+    containers:
+      - name: main
+        image: registry.redhat.io/rhaii/vllm-cuda-rhel9:3.5.1-1788369031
+        env:
+          - name: VLLM_NIXL_SIDE_CHANNEL_HOST
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+          - name: VLLM_ADDITIONAL_ARGS
+            value: "--enable-cumem-allocator --kv_transfer_config '{\"kv_connector\":\"NixlConnector\",\"kv_role\":\"kv_both\"}'"
+          - name: NIXL_LOG_LEVEL
+            value: "DEBUG"
+          - name: UCX_LOG_LEVEL
+            value: "debug"
+          - name: UCX_PROTO_INFO
+            value: "y"
+          - name: UCX_CUDA_IPC_ENABLE_MNNVL
+            value: "y"
+          - name: VLLM_LOGGING_LEVEL
+            value: "DEBUG"
+        resources:
+          claims:
+            - name: gpu
+            - name: compute-domain-channel
+          limits:
+            cpu: "4"
+            memory: 32Gi
+          requests:
+            cpu: "2"
+            memory: 16Gi
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+            scheme: HTTPS
+          initialDelaySeconds: 120
+          periodSeconds: 30
+          timeoutSeconds: 30
+          failureThreshold: 5
+  prefill:
+    replicas: 2
+    template:
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: pd-gpus
+        - name: compute-domain-channel
+          resourceClaimTemplateName: pd-compute-domain-channel
+      containers:
+        - name: main
+          image: registry.redhat.io/rhaii/vllm-cuda-rhel9:3.5.1-1788369031
+          env:
+            - name: VLLM_NIXL_SIDE_CHANNEL_HOST
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: VLLM_ADDITIONAL_ARGS
+              value: "--enable-cumem-allocator --kv_transfer_config '{\"kv_connector\":\"NixlConnector\",\"kv_role\":\"kv_both\"}'"
+            - name: NIXL_LOG_LEVEL
+              value: "DEBUG"
+            - name: UCX_LOG_LEVEL
+              value: "debug"
+            - name: UCX_PROTO_INFO
+              value: "y"
+            - name: UCX_CUDA_IPC_ENABLE_MNNVL
+              value: "y"
+            - name: VLLM_LOGGING_LEVEL
+              value: "DEBUG"
+          resources:
+            claims:
+              - name: gpu
+              - name: compute-domain-channel
+            limits:
+              cpu: "4"
+              memory: 32Gi
+            requests:
+              cpu: "2"
+              memory: 16Gi
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+              scheme: HTTPS
+            initialDelaySeconds: 120
+            periodSeconds: 30
+            timeoutSeconds: 30
+            failureThreshold: 5

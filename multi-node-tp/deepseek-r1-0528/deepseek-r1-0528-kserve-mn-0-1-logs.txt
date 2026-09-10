@@ -1,0 +1,615 @@
+2026-09-10 16:48:39,581 - INFO - Successfully registered TerratorchFix model with vLLM, this is only required to support vLLM >0.21.0 <=0.24.0 due to a known bug
+2026-09-10 16:48:39,582 - INFO - Successfully registered BartForConditionalGeneration, Florence2ForConditionalGeneration with vLLM
+INFO 09-10 16:48:54 [model.py:598] Resolved architecture: DeepseekV3ForCausalLM
+INFO 09-10 16:48:54 [model.py:1725] Using max model len 163840
+INFO 09-10 16:48:54 [arg_utils.py:1992] Inferred data_parallel_rank 0 from node_rank 1
+INFO 09-10 16:48:54 [scheduler.py:252] Chunked prefill is enabled with max_num_batched_tokens=8192.
+INFO 09-10 16:48:54 [vllm.py:1006] Asynchronous scheduling is enabled.
+INFO 09-10 16:48:54 [kernel.py:276] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['native'], fused_add_rms_norm=['native'])
+INFO 09-10 16:48:55 [compilation.py:310] Enabled custom fusions: norm_quant, act_quant, allreduce_rms
+INFO 09-10 16:48:55 [serve.py:212] Launching vLLM (v0.24.0+rhaiv.13) headless multiproc executor, with head node address deepseek-r1-0528-kserve-mn-0.deepseek-r1-0528-kserve-mn.dagray-dev:29501 for torch.distributed process group.
+WARNING 09-10 16:48:55 [multiproc_executor.py:1063] Reducing Torch parallelism from 144 threads to 1 to avoid unnecessary CPU contention. Set OMP_NUM_THREADS in the external environment to tune this value as needed.
+2026-09-10 16:49:09,681 - INFO - Successfully registered TerratorchFix model with vLLM, this is only required to support vLLM >0.21.0 <=0.24.0 due to a known bug
+2026-09-10 16:49:09,690 - INFO - Successfully registered TerratorchFix model with vLLM, this is only required to support vLLM >0.21.0 <=0.24.0 due to a known bug
+2026-09-10 16:49:09,690 - INFO - Successfully registered TerratorchFix model with vLLM, this is only required to support vLLM >0.21.0 <=0.24.0 due to a known bug
+2026-09-10 16:49:09,971 - INFO - Successfully registered TerratorchFix model with vLLM, this is only required to support vLLM >0.21.0 <=0.24.0 due to a known bug
+2026-09-10 16:49:10,095 - INFO - Successfully registered BartForConditionalGeneration, Florence2ForConditionalGeneration with vLLM
+2026-09-10 16:49:10,105 - INFO - Successfully registered BartForConditionalGeneration, Florence2ForConditionalGeneration with vLLM
+2026-09-10 16:49:10,109 - INFO - Successfully registered BartForConditionalGeneration, Florence2ForConditionalGeneration with vLLM
+2026-09-10 16:49:10,408 - INFO - Successfully registered BartForConditionalGeneration, Florence2ForConditionalGeneration with vLLM
+(Worker pid=329) INFO 09-10 16:49:10 [parallel_state.py:1588] world_size=8 rank=4 local_rank=0 distributed_init_method=tcp://deepseek-r1-0528-kserve-mn-0.deepseek-r1-0528-kserve-mn.dagray-dev:29501 backend=nccl
+(Worker pid=332) INFO 09-10 16:49:10 [parallel_state.py:1588] world_size=8 rank=7 local_rank=3 distributed_init_method=tcp://deepseek-r1-0528-kserve-mn-0.deepseek-r1-0528-kserve-mn.dagray-dev:29501 backend=nccl
+(Worker pid=331) INFO 09-10 16:49:10 [parallel_state.py:1588] world_size=8 rank=6 local_rank=2 distributed_init_method=tcp://deepseek-r1-0528-kserve-mn-0.deepseek-r1-0528-kserve-mn.dagray-dev:29501 backend=nccl
+(Worker pid=330) INFO 09-10 16:49:10 [parallel_state.py:1588] world_size=8 rank=5 local_rank=1 distributed_init_method=tcp://deepseek-r1-0528-kserve-mn-0.deepseek-r1-0528-kserve-mn.dagray-dev:29501 backend=nccl
+(Worker pid=329) INFO 09-10 16:49:14 [parallel_state.py:1923] rank 4 in world size 8 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 4, EP rank 4, EPLB rank N/A
+(Worker_TP7 pid=332) INFO 09-10 16:49:15 [selector.py:138] Using HND KV cache layout for FLASHINFER_MLA backend.
+(Worker_TP5 pid=330) INFO 09-10 16:49:15 [selector.py:138] Using HND KV cache layout for FLASHINFER_MLA backend.
+(Worker_TP6 pid=331) INFO 09-10 16:49:15 [selector.py:138] Using HND KV cache layout for FLASHINFER_MLA backend.
+(Worker_TP4 pid=329) INFO 09-10 16:49:15 [deep_gemm.py:175] deep_gemm not found in site-packages, trying vendored vllm.third_party.deep_gemm
+(Worker_TP4 pid=329) INFO 09-10 16:49:15 [deep_gemm.py:202] DeepGEMM PDL enabled on vllm.third_party.deep_gemm.
+(Worker_TP4 pid=329) INFO 09-10 16:49:15 [deep_gemm.py:120] DeepGEMM E8M0 enabled on current platform.
+(Worker_TP4 pid=329) INFO 09-10 16:49:15 [cuda.py:480] Using FLASHINFER_MLA attention backend out of potential backends: ['FLASHINFER_MLA', 'CUTLASS_MLA', 'TRITON_MLA'].
+(Worker_TP4 pid=329) INFO 09-10 16:49:15 [selector.py:138] Using HND KV cache layout for FLASHINFER_MLA backend.
+(Worker_TP4 pid=329) INFO 09-10 16:49:15 [selector.py:166] Using FLASH_ATTN MLA prefill backend.
+(Worker_TP4 pid=329) INFO 09-10 16:49:15 [fp8.py:376] Using FLASHINFER_TRTLLM Fp8 MoE backend out of potential backends: ['AITER', 'FLASHINFER_TRTLLM', 'FLASHINFER_CUTLASS', 'DEEPGEMM', 'TRITON', 'MARLIN', 'BATCHED_DEEPGEMM', 'BATCHED_TRITON', 'XPU', 'CPU'].
+(Worker_TP4 pid=329) INFO 09-10 16:49:16 [weight_utils.py:849] Filesystem type for checkpoints: XFS. Checkpoint size: 641.30 GiB. Available RAM: 892.48 GiB.
+(Worker_TP4 pid=329) INFO 09-10 16:49:16 [weight_utils.py:872] Auto-prefetch is disabled because the filesystem (XFS) is not a recognized network FS (NFS/Lustre). If you want to force prefetching, start vLLM with --safetensors-load-strategy=prefetch.
+(Worker_TP4 pid=329) INFO 09-10 16:53:23 [default_loader.py:430] Loading weights took 247.72 seconds
+(Worker_TP4 pid=329) INFO 09-10 16:53:31 [fp8.py:594] Using MoEPrepareAndFinalizeNoDPEPMonolithic
+(Worker_TP5 pid=330) INFO 09-10 16:53:40 [interface.py:620] Setting kv cache block size to 32 for FLASHINFER_MLA backend.
+(Worker_TP6 pid=331) INFO 09-10 16:53:40 [interface.py:620] Setting kv cache block size to 32 for FLASHINFER_MLA backend.
+(Worker_TP4 pid=329) INFO 09-10 16:53:41 [gpu_model_runner.py:5293] Model loading took 79.89 GiB memory and 264.707233 seconds
+(Worker_TP4 pid=329) INFO 09-10 16:53:41 [interface.py:620] Setting kv cache block size to 32 for FLASHINFER_MLA backend.
+(Worker_TP7 pid=332) INFO 09-10 16:53:41 [interface.py:620] Setting kv cache block size to 32 for FLASHINFER_MLA backend.
+(Worker_TP4 pid=329) INFO 09-10 16:54:16 [backends.py:1089] Using cache directory: /tmp/vllm/torch_compile_cache/fb3fb4a94e/rank_4_0/backbone for vLLM's torch.compile
+(Worker_TP4 pid=329) INFO 09-10 16:54:16 [backends.py:1148] Dynamo bytecode transform time: 15.74 s
+(Worker_TP4 pid=329) INFO 09-10 16:54:16 [flashinfer_all_reduce.py:112] Auto-selected flashinfer allreduce backend: mnnvl
+[rank4]:[W910 16:54:19.134225440 ProcessGroupNCCL.cpp:5188] Guessing device ID based on global rank. This can cause a hang if rank to GPU mapping is heterogeneous. You can specify device_id in init_process_group()
+(Worker_TP4 pid=329) INFO 09-10 16:54:19 [flashinfer_all_reduce.py:152] Initialized FlashInfer Allreduce norm fusion workspace with backend=mnnvl
+(Worker_TP4 pid=329) WARNING 09-10 16:54:19 [flashinfer_all_reduce.py:185] Flashinfer allreduce quantization fusion is not supported for multi-node allreduce. Disabling quant fusion.
+(Worker_TP4 pid=329) WARNING 09-10 16:54:19 [allreduce_rms_fusion.py:999] Failed to initialize Flashinfer allreduce workspace. Flashinfer allreduce-norm-quant fusion will be disabled.
+(Worker_TP4 pid=329) INFO 09-10 16:54:25 [backends.py:378] Cache the graph of compile range (1, 73) for later use
+(Worker_TP4 pid=329) INFO 09-10 16:54:27 [backends.py:378] Cache the graph of compile range (74, 8192) for later use
+(Worker_TP4 pid=329) INFO 09-10 16:54:44 [backends.py:393] Compiling a graph for compile range (1, 73) takes 18.78 s
+(Worker_TP4 pid=329) INFO 09-10 16:54:44 [backends.py:393] Compiling a graph for compile range (74, 8192) takes 19.68 s
+(Worker_TP4 pid=329) INFO 09-10 16:55:24 [decorators.py:708] saved AOT compiled function to /tmp/vllm/torch_compile_cache/torch_aot_compile/e75c88d40df055cdaa1c123ddbb8fcafb7be44635a7a4119f7401661a236ccfb/rank_4_0/model
+(Worker_TP4 pid=329) INFO 09-10 16:55:24 [monitor.py:53] torch.compile took 84.33 s in total
+(Worker_TP6 pid=331) 2026-09-10 16:55:46,457 - WARNING - core.py:2971 - flashinfer.jit: the single torch.Tensor return type is deprecated and will be replaced with List[torch.Tensor] in the v0.8.0.
+(Worker_TP7 pid=332) (Worker_TP5 pid=330) 2026-09-10 16:55:46,563 - WARNING - core.py:2971 - flashinfer.jit: the single torch.Tensor return type is deprecated and will be replaced with List[torch.Tensor] in the v0.8.0.
+2026-09-10 16:55:46,563 - WARNING - core.py:2971 - flashinfer.jit: the single torch.Tensor return type is deprecated and will be replaced with List[torch.Tensor] in the v0.8.0.
+(Worker_TP4 pid=329) 2026-09-10 16:55:46,604 - WARNING - core.py:2971 - flashinfer.jit: the single torch.Tensor return type is deprecated and will be replaced with List[torch.Tensor] in the v0.8.0.
+(Worker_TP4 pid=329) INFO 09-10 16:55:46 [monitor.py:81] Initial profiling/warmup run took 21.95 s
+(Worker_TP4 pid=329) INFO 09-10 16:55:53 [gpu_model_runner.py:6521] Profiling CUDA graph memory: PIECEWISE=51 (largest=512), FULL=51 (largest=512)
+(Worker_TP6 pid=331) INFO 09-10 16:55:53 [gpu_model_runner.py:6521] Profiling CUDA graph memory: PIECEWISE=51 (largest=512), FULL=51 (largest=512)
+(Worker_TP5 pid=330) INFO 09-10 16:55:53 [gpu_model_runner.py:6521] Profiling CUDA graph memory: PIECEWISE=51 (largest=512), FULL=51 (largest=512)
+(Worker_TP7 pid=332) INFO 09-10 16:55:53 [gpu_model_runner.py:6521] Profiling CUDA graph memory: PIECEWISE=51 (largest=512), FULL=51 (largest=512)
+(Worker_TP5 pid=330) INFO 09-10 16:56:13 [gpu_model_runner.py:6626] Estimated CUDA graph memory: 2.04 GiB total
+(Worker_TP6 pid=331) INFO 09-10 16:56:13 [gpu_model_runner.py:6626] Estimated CUDA graph memory: 2.04 GiB total
+(Worker_TP4 pid=329) INFO 09-10 16:56:13 [gpu_model_runner.py:6626] Estimated CUDA graph memory: 2.04 GiB total
+(Worker_TP7 pid=332) INFO 09-10 16:56:13 [gpu_model_runner.py:6626] Estimated CUDA graph memory: 2.04 GiB total
+(Worker_TP5 pid=330) INFO 09-10 16:56:13 [gpu_worker.py:523] CUDA graph memory profiling is enabled (default since v0.21.0). The current --gpu-memory-utilization=0.9200 is equivalent to --gpu-memory-utilization=0.9089 without CUDA graph memory profiling. To maintain the same effective KV cache size as before, increase --gpu-memory-utilization to 0.9311. To disable, set VLLM_MEMORY_PROFILER_ESTIMATE_CUDAGRAPHS=0.
+(Worker_TP6 pid=331) INFO 09-10 16:56:14 [gpu_worker.py:523] CUDA graph memory profiling is enabled (default since v0.21.0). The current --gpu-memory-utilization=0.9200 is equivalent to --gpu-memory-utilization=0.9089 without CUDA graph memory profiling. To maintain the same effective KV cache size as before, increase --gpu-memory-utilization to 0.9311. To disable, set VLLM_MEMORY_PROFILER_ESTIMATE_CUDAGRAPHS=0.
+(Worker_TP4 pid=329) INFO 09-10 16:56:14 [gpu_worker.py:508] Available KV cache memory: 84.85 GiB
+(Worker_TP4 pid=329) INFO 09-10 16:56:14 [gpu_worker.py:523] CUDA graph memory profiling is enabled (default since v0.21.0). The current --gpu-memory-utilization=0.9200 is equivalent to --gpu-memory-utilization=0.9089 without CUDA graph memory profiling. To maintain the same effective KV cache size as before, increase --gpu-memory-utilization to 0.9311. To disable, set VLLM_MEMORY_PROFILER_ESTIMATE_CUDAGRAPHS=0.
+(Worker_TP7 pid=332) INFO 09-10 16:56:14 [gpu_worker.py:523] CUDA graph memory profiling is enabled (default since v0.21.0). The current --gpu-memory-utilization=0.9200 is equivalent to --gpu-memory-utilization=0.9089 without CUDA graph memory profiling. To maintain the same effective KV cache size as before, increase --gpu-memory-utilization to 0.9311. To disable, set VLLM_MEMORY_PROFILER_ESTIMATE_CUDAGRAPHS=0.
+(Worker_TP4 pid=329) 2026-09-10 17:00:01,471 - INFO - autotuner.py:622 - flashinfer.jit: [Autotuner]: Autotuning process starts ...
+(Worker_TP5 pid=330) 2026-09-10 17:00:01,616 - INFO - autotuner.py:622 - flashinfer.jit: [Autotuner]: Autotuning process starts ...
+(Worker_TP6 pid=331) 2026-09-10 17:00:01,630 - INFO - autotuner.py:622 - flashinfer.jit: [Autotuner]: Autotuning process starts ...
+(Worker_TP7 pid=332) 2026-09-10 17:00:03,158 - INFO - autotuner.py:622 - flashinfer.jit: [Autotuner]: Autotuning process starts ...
+(Worker_TP4 pid=329) (Worker_TP6 pid=331) (Worker_TP5 pid=330) [AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:   0%|          | 0/21 [00:00<?, ?profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:   0%|          | 0/21 [00:00<?, ?profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:   0%|          | 0/21 [00:00<?, ?profile/s](Worker_TP7 pid=332) [AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:   0%|          | 0/21 [00:00<?, ?profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:   5%|▍         | 1/21 [00:00<00:06,  2.97profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:   5%|▍         | 1/21 [00:00<00:06,  2.97profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:   5%|▍         | 1/21 [00:00<00:06,  2.96profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:   5%|▍         | 1/21 [00:00<00:08,  2.39profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  10%|▉         | 2/21 [00:00<00:05,  3.18profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  10%|▉         | 2/21 [00:00<00:06,  3.15profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  10%|▉         | 2/21 [00:00<00:06,  3.10profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  10%|▉         | 2/21 [00:00<00:07,  2.43profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  14%|█▍        | 3/21 [00:00<00:05,  3.21profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  14%|█▍        | 3/21 [00:00<00:05,  3.17profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  14%|█▍        | 3/21 [00:00<00:05,  3.09profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  14%|█▍        | 3/21 [00:01<00:06,  2.62profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  19%|█▉        | 4/21 [00:01<00:05,  3.15profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  19%|█▉        | 4/21 [00:01<00:05,  3.11profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  19%|█▉        | 4/21 [00:01<00:05,  3.01profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  19%|█▉        | 4/21 [00:01<00:06,  2.59profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  24%|██▍       | 5/21 [00:01<00:05,  3.02profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  24%|██▍       | 5/21 [00:01<00:05,  2.86profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  24%|██▍       | 5/21 [00:01<00:05,  2.88profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  24%|██▍       | 5/21 [00:01<00:06,  2.57profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  29%|██▊       | 6/21 [00:01<00:05,  2.89profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  29%|██▊       | 6/21 [00:02<00:05,  2.76profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  29%|██▊       | 6/21 [00:02<00:05,  2.55profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  33%|███▎      | 7/21 [00:02<00:05,  2.80profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  29%|██▊       | 6/21 [00:02<00:06,  2.50profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  33%|███▎      | 7/21 [00:02<00:05,  2.68profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  33%|███▎      | 7/21 [00:02<00:05,  2.50profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  38%|███▊      | 8/21 [00:02<00:04,  2.72profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  33%|███▎      | 7/21 [00:02<00:05,  2.41profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  38%|███▊      | 8/21 [00:02<00:05,  2.60profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  38%|███▊      | 8/21 [00:02<00:05,  2.47profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  43%|████▎     | 9/21 [00:03<00:04,  2.57profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  38%|███▊      | 8/21 [00:03<00:05,  2.26profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  43%|████▎     | 9/21 [00:03<00:04,  2.47profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  43%|████▎     | 9/21 [00:03<00:05,  2.39profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  43%|████▎     | 9/21 [00:03<00:05,  2.11profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  48%|████▊     | 10/21 [00:03<00:05,  2.10profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  48%|████▊     | 10/21 [00:04<00:05,  2.03profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  48%|████▊     | 10/21 [00:04<00:05,  1.99profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  52%|█████▏    | 11/21 [00:04<00:05,  1.81profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  48%|████▊     | 10/21 [00:04<00:06,  1.77profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  52%|█████▏    | 11/21 [00:04<00:05,  1.76profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  52%|█████▏    | 11/21 [00:04<00:05,  1.75profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  57%|█████▋    | 12/21 [00:05<00:05,  1.60profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  52%|█████▏    | 11/21 [00:05<00:06,  1.53profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  57%|█████▋    | 12/21 [00:05<00:05,  1.56profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  57%|█████▋    | 12/21 [00:05<00:05,  1.57profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  62%|██████▏   | 13/21 [00:05<00:04,  1.62profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  62%|██████▏   | 13/21 [00:06<00:05,  1.58profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  62%|██████▏   | 13/21 [00:06<00:05,  1.59profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  57%|█████▋    | 12/21 [00:06<00:06,  1.40profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  67%|██████▋   | 14/21 [00:06<00:04,  1.61profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  67%|██████▋   | 14/21 [00:06<00:04,  1.57profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  62%|██████▏   | 13/21 [00:06<00:05,  1.46profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  67%|██████▋   | 14/21 [00:06<00:04,  1.52profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  71%|███████▏  | 15/21 [00:07<00:03,  1.55profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  71%|███████▏  | 15/21 [00:07<00:03,  1.50profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  67%|██████▋   | 14/21 [00:07<00:04,  1.48profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  71%|███████▏  | 15/21 [00:07<00:04,  1.46profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  76%|███████▌  | 16/21 [00:08<00:03,  1.49profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  76%|███████▌  | 16/21 [00:08<00:03,  1.46profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  71%|███████▏  | 15/21 [00:08<00:04,  1.41profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  76%|███████▌  | 16/21 [00:08<00:03,  1.42profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  81%|████████  | 17/21 [00:08<00:02,  1.61profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  81%|████████  | 17/21 [00:08<00:02,  1.58profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  81%|████████  | 17/21 [00:08<00:02,  1.55profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  86%|████████▌ | 18/21 [00:09<00:01,  1.65profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  76%|███████▌  | 16/21 [00:09<00:03,  1.36profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  86%|████████▌ | 18/21 [00:09<00:01,  1.62profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  86%|████████▌ | 18/21 [00:09<00:01,  1.63profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  90%|█████████ | 19/21 [00:09<00:01,  1.67profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  81%|████████  | 17/21 [00:09<00:02,  1.48profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  90%|█████████ | 19/21 [00:09<00:01,  1.65profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  90%|█████████ | 19/21 [00:10<00:01,  1.63profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  86%|████████▌ | 18/21 [00:10<00:01,  1.52profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  95%|█████████▌| 20/21 [00:10<00:00,  1.60profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  95%|█████████▌| 20/21 [00:10<00:00,  1.58profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  95%|█████████▌| 20/21 [00:10<00:00,  1.59profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  90%|█████████ | 19/21 [00:10<00:01,  1.55profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe: 100%|██████████| 21/21 [00:11<00:00,  1.40profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe: 100%|██████████| 21/21 [00:11<00:00,  1.86profile/s]
+[AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe: 100%|██████████| 21/21 [00:11<00:00,  1.39profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe: 100%|██████████| 21/21 [00:11<00:00,  1.81profile/s]
+[AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe:  95%|█████████▌| 20/21 [00:11<00:00,  1.53profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe: 100%|██████████| 21/21 [00:11<00:00,  1.41profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe: 100%|██████████| 21/21 [00:11<00:00,  1.79profile/s]
+[AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe: 100%|██████████| 21/21 [00:12<00:00,  1.35profile/s][AutoTuner]: Tuning flashinfer::trtllm_fp8_block_scale_moe: 100%|██████████| 21/21 [00:12<00:00,  1.67profile/s]
+(Worker_TP6 pid=331) 2026-09-10 17:00:17,323 - INFO - autotuner.py:641 - flashinfer.jit: [Autotuner]: Autotuning process ends
+(Worker_TP5 pid=330) 2026-09-10 17:00:17,323 - INFO - autotuner.py:641 - flashinfer.jit: [Autotuner]: Autotuning process ends
+(Worker_TP4 pid=329) 2026-09-10 17:00:17,323 - INFO - autotuner.py:641 - flashinfer.jit: [Autotuner]: Autotuning process ends
+(Worker_TP7 pid=332) 2026-09-10 17:00:17,332 - INFO - autotuner.py:641 - flashinfer.jit: [Autotuner]: Autotuning process ends
+(Worker_TP6 pid=331) INFO 09-10 17:01:18 [gpu_worker.py:667] CUDA graph pool memory: 2.55 GiB (actual), 2.04 GiB (estimated), difference: 0.5 GiB (19.7%).
+(Worker_TP5 pid=330) INFO 09-10 17:01:18 [gpu_worker.py:667] CUDA graph pool memory: 2.55 GiB (actual), 2.04 GiB (estimated), difference: 0.5 GiB (19.7%).
+(Worker_TP4 pid=329) INFO 09-10 17:01:18 [gpu_model_runner.py:6694] Graph capturing finished in 61 secs, took 2.55 GiB
+(Worker_TP4 pid=329) INFO 09-10 17:01:18 [gpu_worker.py:667] CUDA graph pool memory: 2.55 GiB (actual), 2.04 GiB (estimated), difference: 0.5 GiB (19.7%).
+(Worker_TP7 pid=332) INFO 09-10 17:01:18 [gpu_worker.py:667] CUDA graph pool memory: 2.55 GiB (actual), 2.04 GiB (estimated), difference: 0.5 GiB (19.7%).
+(Worker_TP4 pid=329) INFO 09-10 17:01:21 [jit_monitor.py:60] Kernel JIT monitor activated — Triton JIT compilations during inference will be logged as warnings.
+(Worker_TP6 pid=331) INFO 09-10 17:01:21 [jit_monitor.py:60] Kernel JIT monitor activated — Triton JIT compilations during inference will be logged as warnings.
+(Worker_TP5 pid=330) INFO 09-10 17:01:21 [jit_monitor.py:60] Kernel JIT monitor activated — Triton JIT compilations during inference will be logged as warnings.
+(Worker_TP7 pid=332) INFO 09-10 17:01:21 [jit_monitor.py:60] Kernel JIT monitor activated — Triton JIT compilations during inference will be logged as warnings.
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP7 pid=332) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP7 pid=332)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP5 pid=330) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP5 pid=330)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP4 pid=329) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP4 pid=329)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(
+(Worker_TP6 pid=331) /opt/app-root/lib64/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+(Worker_TP6 pid=331)   warnings.warn(

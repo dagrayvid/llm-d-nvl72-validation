@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mx-model-cache-nvme
+spec:
+  capacity:
+    storage: 1500Gi
+  accessModes:
+  - ReadWriteMany
+  volumeMode: Filesystem
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+  hostPath:
+    path: /var/mnt/mx-model-cache
+    type: Directory
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mx-model-cache
+  namespace: dagray-dev
+spec:
+  accessModes:
+  - ReadWriteMany
+  volumeMode: Filesystem
+  storageClassName: ""
+  volumeName: mx-model-cache-nvme
+  resources:
+    requests:
+      storage: 1500Gi

@@ -1,0 +1,127 @@
+  apiVersion: apps/v1
+  kind: DaemonSet
+  metadata:
+    name: model-cache-download
+    namespace: dagray-dev
+  spec:
+    selector:
+      matchLabels:
+        app: model-cache-download
+    updateStrategy:
+      type: RollingUpdate
+      rollingUpdate:
+        maxUnavailable: 100%
+    template:
+      metadata:
+        labels:
+          app: model-cache-download
+      spec:
+        terminationGracePeriodSeconds: 10
+        containers:
+        - name: download
+          image: ghcr.io/vllm-project/guidellm:v0.7.3
+          imagePullPolicy: IfNotPresent
+          command:
+          - /bin/bash
+          - -ec
+          args:
+          - |
+            mkdir -p "$HOME" "$HF_HOME" "$TMPDIR"
+
+            python3 - <<'PY'
+            import os
+            from pathlib import Path
+            from huggingface_hub import snapshot_download
+
+            for entry in os.environ["MODEL_SPECS"].splitlines():
+                entry = entry.strip()
+                if not entry or entry.startswith("#"):
+                    continue
+
+                repo_id, separator, model_dir = entry.partition("|")
+                if not separator:
+                    model_dir = repo_id.rsplit("/", 1)[-1]
+
+                destination = Path("/models") / model_dir
+                print(
+                    f"Downloading {repo_id} to {destination}",
+                    flush=True,
+                )
+
+                snapshot_download(
+                    repo_id=repo_id,
+                    local_dir=str(destination),
+                    max_workers=8,
+                )
+
+                if not (destination / "config.json").is_file():
+                    raise RuntimeError(
+                        f"{destination}/config.json is missing"
+                    )
+
+                marker = Path("/models") / (
+                    ".download-complete-" + model_dir.replace("/", "_")
+                )
+                marker.touch()
+                print(f"Completed {repo_id}", flush=True)
+
+            Path("/status/complete").touch()
+            PY
+
+            du -sh /models/*
+            sleep infinity
+          env:
+          # Format: Hugging Face repository | local directory
+          - name: MODEL_SPECS
+            value: |
+              RedHatAI/GLM-5.2-NVFP4|GLM-5.2-NVFP4
+              #deepseek-ai/DeepSeek-R1-0528|DeepSeek-R1-0528
+              #RedHatAI/DeepSeek-V4-Flash-NVFP4-FP8|DeepSeek-V4-Flash-NVFP4-FP8
+          - name: HOME
+            value: /models/.home
+          - name: HF_HOME
+            value: /models/.huggingface
+          - name: TMPDIR
+            value: /models/.tmp
+          - name: HF_HUB_DISABLE_TELEMETRY
+            value: "1"
+          # Optional: absent secrets do not prevent startup.
+          - name: HF_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: hf-token
+                key: HF_TOKEN
+                optional: true
+          readinessProbe:
+            exec:
+              command:
+              - /bin/sh
+              - -c
+              - test -f /status/complete
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: "2"
+              memory: 4Gi
+            limits:
+              cpu: "8"
+              memory: 8Gi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: [ALL]
+          volumeMounts:
+          - name: model-cache
+            mountPath: /models
+          - name: status
+            mountPath: /status
+        securityContext:
+          runAsNonRoot: true
+          seccompProfile:
+            type: RuntimeDefault
+        volumes:
+        - name: model-cache
+          persistentVolumeClaim:
+            claimName: mx-model-cache
+        - name: status
+          emptyDir: {}

@@ -1,0 +1,68 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dynamic-mig-samples
+---
+# Multiple MIG slices in one pod: use a single ResourceClaimTemplate with multiple requests.
+# Each container references the shared claim with a specific request name.
+apiVersion: resource.k8s.io/v1
+kind: ResourceClaimTemplate
+metadata:
+  name: mig-claim-multi
+  namespace: dynamic-mig-samples
+spec:
+  spec:
+    devices:
+      requests:
+      - name: mig-small
+        exactly:
+          deviceClassName: mig.nvidia.com
+          selectors:
+          - cel:
+              # H100 SXM: 1g.10gb  H200 SXM: 1g.18gb
+              expression: "device.attributes['gpu.nvidia.com'].profile == '1g.18gb'"
+      - name: mig-large
+        exactly:
+          deviceClassName: mig.nvidia.com
+          selectors:
+          - cel:
+              # H100 SXM: 2g.20gb  H200 SXM: 2g.35gb
+              expression: "device.attributes['gpu.nvidia.com'].profile == '2g.35gb'"
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mig-multi
+  namespace: dynamic-mig-samples
+spec:
+  restartPolicy: Never
+  securityContext:
+    runAsNonRoot: true
+    seccompProfile:
+      type: RuntimeDefault
+  containers:
+  - name: ctr0
+    image: nvcr.io/nvidia/cuda:12.4.0-base-ubi9
+    command: ["sh", "-c", "nvidia-smi -L && sleep 300"]
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop: ["ALL"]
+    resources:
+      claims:
+      - name: migdevs
+        request: mig-small
+  - name: ctr1
+    image: nvcr.io/nvidia/cuda:12.4.0-base-ubi9
+    command: ["sh", "-c", "nvidia-smi -L && sleep 300"]
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop: ["ALL"]
+    resources:
+      claims:
+      - name: migdevs
+        request: mig-large
+  resourceClaims:
+  - name: migdevs
+    resourceClaimTemplateName: mig-claim-multi

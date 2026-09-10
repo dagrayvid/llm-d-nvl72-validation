@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dynamic-mig-samples
+---
+# Note: the gpu-burn image is x86_64 only.
+apiVersion: resource.k8s.io/v1
+kind: ResourceClaimTemplate
+metadata:
+  name: mig-claim-burn
+  namespace: dynamic-mig-samples
+spec:
+  spec:
+    devices:
+      requests:
+      - name: mig
+        exactly:
+          deviceClassName: mig.nvidia.com
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mig-burn
+  namespace: dynamic-mig-samples
+spec:
+  restartPolicy: Never
+  securityContext:
+    runAsNonRoot: true
+    seccompProfile:
+      type: RuntimeDefault
+  containers:
+  - name: gpu-burn
+    image: quay.io/vemporop/gpu-burn:cuda12.3.0-ubi9
+    command: ["/app/gpu_burn", "-d", "3600"]
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop: ["ALL"]
+    resources:
+      claims:
+      - name: migdev
+  resourceClaims:
+  - name: migdev
+    resourceClaimTemplateName: mig-claim-burn

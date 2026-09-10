@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: model-cache-check
+  namespace: dagray-dev
+spec:
+  selector:
+    matchLabels:
+      app: model-cache-check
+  template:
+    metadata:
+      labels:
+        app: model-cache-check
+    spec:
+      containers:
+      - name: check
+        image: registry.access.redhat.com/ubi9/ubi-minimal:latest
+        command:
+        - /bin/sh
+        - -ec
+        args:
+        - |
+          echo "$(hostname) $(date -Iseconds)" > "/models/write-test-$(hostname)"
+          exec sleep infinity
+        volumeMounts:
+        - name: models
+          mountPath: /models
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      volumes:
+      - name: models
+        persistentVolumeClaim:
+          claimName: mx-model-cache

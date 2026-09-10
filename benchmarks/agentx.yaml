@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aiperf-agentx
+  labels:
+    app: aiperf-agentx
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: aiperf-agentx
+  template:
+    metadata:
+      labels:
+        app: aiperf-agentx
+    spec:
+      containers:
+      - name: aiperf
+        image: quay.io/rh-ee-robshaw/aiperf:agentx-v0
+        imagePullPolicy: IfNotPresent
+        command:
+        - sleep
+        - infinity
+        workingDir: /workspace
+        env:
+        - name: AIPERF_DATASET_WEKA_LIVE_ASSISTANT_RESPONSES
+          value: "1"
+        - name: HF_HOME
+          value: /workspace/.cache/huggingface
+        envFrom:
+        - secretRef:
+            name: aiperf-hf-token
+            optional: true
+        resources:
+          requests:
+            cpu: "4"
+            memory: 8Gi
+          limits:
+            cpu: "16"
+            memory: 32Gi
+            ephemeral-storage: 20Gi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+        volumeMounts:
+        - name: workspace
+          mountPath: /workspace
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      volumes:
+      - name: workspace
+        emptyDir:
+          sizeLimit: 20Gi

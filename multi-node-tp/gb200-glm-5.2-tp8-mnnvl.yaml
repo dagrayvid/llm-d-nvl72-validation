@@ -1,0 +1,187 @@
+# Two-node, eight-GPU tensor-parallel GLM-5.2 deployment on GB200 NVL72.
+#
+# KServe currently derives LeaderWorkerSet group size from data/dataLocal rather
+# than cross-node tensor parallelism.  data=2 and dataLocal=1 are therefore used
+# only to produce one leader plus one worker.  The container command below
+# replaces the injected data-parallel launcher with vLLM's native multi-node
+# multiprocessing launcher and forms one TP=8 engine across the two nodes.
+apiVersion: resource.k8s.io/v1
+kind: ResourceClaimTemplate
+metadata:
+  name: glm-5-2-gpus
+  namespace: dagray-dev
+spec:
+  spec:
+    devices:
+      requests:
+      - name: gpus
+        exactly:
+          deviceClassName: gpu.nvidia.com
+          allocationMode: ExactCount
+          count: 4
+---
+apiVersion: resource.nvidia.com/v1beta1
+kind: ComputeDomain
+metadata:
+  name: glm-5-2-compute-domain
+  namespace: dagray-dev
+spec:
+  numNodes: 2
+  channel:
+    resourceClaimTemplate:
+      name: glm-5-2-compute-domain-channel
+---
+apiVersion: serving.kserve.io/v1alpha2
+kind: LLMInferenceService
+metadata:
+  name: glm-5-2
+  namespace: dagray-dev
+spec:
+  baseRefs:
+  - name: v3-5-0-kserve-config-llm-multi-node-template-nvidia-cuda
+  model:
+    name: RedHatAI/GLM-5.2-NVFP4
+    uri: pvc://mx-model-cache/GLM-5.2-NVFP4
+  replicas: 1
+
+  # Topology-only workaround: force a two-pod LeaderWorkerSet.
+  parallelism:
+    tensor: 8
+    data: 2
+    dataLocal: 1
+
+  router:
+    gateway: {}
+    route: {}
+
+  template:
+    resourceClaims:
+    - name: gpus
+      resourceClaimTemplateName: glm-5-2-gpus
+    - name: compute-domain-channel
+      resourceClaimTemplateName: glm-5-2-compute-domain-channel
+    containers:
+    - name: main
+      image: registry.redhat.io/rhaii/vllm-cuda-rhel9:3.5.1-1788369031
+      command:
+      - /bin/bash
+      - -ec
+      args:
+      - |
+        NODE_RANK="${LWS_WORKER_INDEX:-0}"
+        ROLE_ARGS=()
+        if [[ "${NODE_RANK}" != "0" ]]; then
+          ROLE_ARGS+=(--headless)
+        fi
+
+        exec vllm serve /mnt/models \
+          --served-model-name "RedHatAI/GLM-5.2-NVFP4" \
+          --host 0.0.0.0 \
+          --port 8000 \
+          --ssl-keyfile /var/run/kserve/tls/tls.key \
+          --ssl-certfile /var/run/kserve/tls/tls.crt \
+          --enable-ssl-refresh \
+          --tensor-parallel-size 8 \
+          --distributed-executor-backend mp \
+          --nnodes "${LWS_GROUP_SIZE}" \
+          --node-rank "${NODE_RANK}" \
+          --master-addr "${LWS_LEADER_ADDRESS}" \
+          --master-port 29501 \
+          "${ROLE_ARGS[@]}"
+      env:
+      # Fail instead of silently falling back to a network transport if NCCL
+      # cannot initialize Multi-Node NVLink for this ComputeDomain.
+      - name: NCCL_MNNVL_ENABLE
+        value: "1"
+      - name: NCCL_CUMEM_ENABLE
+        value: "1"
+      ports:
+      - name: http
+        containerPort: 8000
+        protocol: TCP
+      # Model loading and graph compilation can take longer than the inherited
+      # ten-minute startup allowance. Only the leader exposes the HTTPS API.
+      startupProbe:
+        httpGet:
+          path: /health
+          port: 8000
+          scheme: HTTPS
+        periodSeconds: 10
+        timeoutSeconds: 2
+        failureThreshold: 180
+      resources:
+        claims:
+        - name: gpus
+        - name: compute-domain-channel
+        requests:
+          cpu: "8"
+          memory: 64Gi
+      volumeMounts:
+      - name: dshm
+        mountPath: /dev/shm
+    volumes:
+    - name: dshm
+      emptyDir:
+        medium: Memory
+        sizeLimit: 16Gi
+
+  worker:
+    resourceClaims:
+    - name: gpus
+      resourceClaimTemplateName: glm-5-2-gpus
+    - name: compute-domain-channel
+      resourceClaimTemplateName: glm-5-2-compute-domain-channel
+    containers:
+    - name: main
+      image: registry.redhat.io/rhaii/vllm-cuda-rhel9:3.5.1-1788369031
+      command:
+      - /bin/bash
+      - -ec
+      args:
+      - |
+        NODE_RANK="${LWS_WORKER_INDEX:-0}"
+        ROLE_ARGS=()
+        if [[ "${NODE_RANK}" != "0" ]]; then
+          ROLE_ARGS+=(--headless)
+        fi
+
+        exec vllm serve /mnt/models \
+          --served-model-name "RedHatAI/GLM-5.2-NVFP4" \
+          --host 0.0.0.0 \
+          --port 8000 \
+          --ssl-keyfile /var/run/kserve/tls/tls.key \
+          --ssl-certfile /var/run/kserve/tls/tls.crt \
+          --enable-ssl-refresh \
+          --tensor-parallel-size 8 \
+          --distributed-executor-backend mp \
+          --nnodes "${LWS_GROUP_SIZE}" \
+          --node-rank "${NODE_RANK}" \
+          --master-addr "${LWS_LEADER_ADDRESS}" \
+          --master-port 29501 \
+          "${ROLE_ARGS[@]}"
+      env:
+      # Fail instead of silently falling back to a network transport if NCCL
+      # cannot initialize Multi-Node NVLink for this ComputeDomain.
+      - name: NCCL_MNNVL_ENABLE
+        value: "1"
+      - name: NCCL_CUMEM_ENABLE
+        value: "1"
+      ports:
+      - name: http
+        containerPort: 8000
+        protocol: TCP
+      resources:
+        claims:
+        - name: gpus
+        - name: compute-domain-channel
+        requests:
+          cpu: "8"
+          memory: 64Gi
+      volumeMounts:
+      - name: dshm
+        mountPath: /dev/shm
+    volumes:
+    - name: dshm
+      emptyDir:
+        medium: Memory
+        sizeLimit: 16Gi

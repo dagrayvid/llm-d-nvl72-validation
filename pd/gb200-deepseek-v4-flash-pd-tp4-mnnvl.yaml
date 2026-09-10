@@ -1,0 +1,177 @@
+# Three-node prefill/decode deployment for GB200 NVL72.
+#
+# Topology: two prefill Pods and one decode Pod. Every Pod uses TP=4 and claims
+# all four GPUs on its node. The three-node ComputeDomain provides the channel
+# used by NIXL/UCX for KV-cache transfer over Multi-Node NVLink.
+apiVersion: resource.k8s.io/v1
+kind: ResourceClaimTemplate
+metadata:
+  name: deepseek-v4-flash-pd-gpus
+  namespace: dagray-dev
+spec:
+  spec:
+    devices:
+      requests:
+      - name: gpus
+        exactly:
+          deviceClassName: gpu.nvidia.com
+          allocationMode: ExactCount
+          count: 4
+---
+apiVersion: resource.nvidia.com/v1beta1
+kind: ComputeDomain
+metadata:
+  name: deepseek-v4-flash-pd-compute-domain
+  namespace: dagray-dev
+spec:
+  numNodes: 3
+  channel:
+    resourceClaimTemplate:
+      name: deepseek-v4-flash-pd-compute-domain-channel
+---
+apiVersion: serving.kserve.io/v1alpha2
+kind: LLMInferenceService
+metadata:
+  name: deepseek-v4-flash-pd
+  namespace: dagray-dev
+spec:
+  model:
+    name: RedHatAI/DeepSeek-V4-Flash-NVFP4-FP8
+    uri: pvc://mx-model-cache/DeepSeek-V4-Flash-NVFP4-FP8
+
+  router:
+    gateway: {}
+    route: {}
+    scheduler:
+      template:
+        containers:
+        - name: main
+
+  # Decode: one Pod using four GPUs with TP=4.
+  replicas: 1
+  template:
+    resourceClaims:
+    - name: gpus
+      resourceClaimTemplateName: deepseek-v4-flash-pd-gpus
+    - name: compute-domain-channel
+      resourceClaimTemplateName: deepseek-v4-flash-pd-compute-domain-channel
+    containers:
+    - name: main
+      image: registry.redhat.io/rhaii/vllm-cuda-rhel9:3.5.1-1788369031
+      env:
+      - name: VLLM_NIXL_SIDE_CHANNEL_HOST
+        valueFrom:
+          fieldRef:
+            fieldPath: status.podIP
+      - name: UCX_CUDA_IPC_ENABLE_MNNVL
+        value: "y"
+      - name: NIXL_LOG_LEVEL
+        value: INFO
+      - name: UCX_LOG_LEVEL
+        value: info
+      - name: UCX_PROTO_INFO
+        value: "y"
+      - name: VLLM_ADDITIONAL_ARGS
+        value: >-
+          --tensor-parallel-size 4
+          --gpu-memory-utilization 0.8
+          --trust-remote-code
+          --kv-cache-dtype fp8
+          --enable-cumem-allocator
+          --kv_transfer_config '{"kv_connector":"NixlConnector","kv_role":"kv_both"}'
+      resources:
+        claims:
+        - name: gpus
+        - name: compute-domain-channel
+        requests:
+          cpu: "16"
+          memory: 32Gi
+      startupProbe:
+        httpGet:
+          path: /health
+          port: 8000
+          scheme: HTTPS
+        periodSeconds: 10
+        timeoutSeconds: 5
+        failureThreshold: 180
+      livenessProbe:
+        httpGet:
+          path: /health
+          port: 8000
+          scheme: HTTPS
+        periodSeconds: 30
+        timeoutSeconds: 30
+        failureThreshold: 5
+      volumeMounts:
+      - name: dshm
+        mountPath: /dev/shm
+    volumes:
+    - name: dshm
+      emptyDir:
+        medium: Memory
+        sizeLimit: 16Gi
+
+  # Prefill: two Pods, each using four GPUs with TP=4.
+  prefill:
+    replicas: 2
+    template:
+      resourceClaims:
+      - name: gpus
+        resourceClaimTemplateName: deepseek-v4-flash-pd-gpus
+      - name: compute-domain-channel
+        resourceClaimTemplateName: deepseek-v4-flash-pd-compute-domain-channel
+      containers:
+      - name: main
+        image: registry.redhat.io/rhaii/vllm-cuda-rhel9:3.5.1-1788369031
+        env:
+        - name: VLLM_NIXL_SIDE_CHANNEL_HOST
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        - name: UCX_CUDA_IPC_ENABLE_MNNVL
+          value: "y"
+        - name: NIXL_LOG_LEVEL
+          value: INFO
+        - name: UCX_LOG_LEVEL
+          value: info
+        - name: UCX_PROTO_INFO
+          value: "y"
+        - name: VLLM_ADDITIONAL_ARGS
+          value: >-
+            --tensor-parallel-size 4
+            --gpu-memory-utilization 0.8
+            --trust-remote-code
+            --kv-cache-dtype fp8
+            --enable-cumem-allocator
+            --kv_transfer_config '{"kv_connector":"NixlConnector","kv_role":"kv_both"}'
+        resources:
+          claims:
+          - name: gpus
+          - name: compute-domain-channel
+          requests:
+            cpu: "16"
+            memory: 32Gi
+        startupProbe:
+          httpGet:
+            path: /health
+            port: 8000
+            scheme: HTTPS
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 180
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+            scheme: HTTPS
+          periodSeconds: 30
+          timeoutSeconds: 30
+          failureThreshold: 5
+        volumeMounts:
+        - name: dshm
+          mountPath: /dev/shm
+      volumes:
+      - name: dshm
+        emptyDir:
+          medium: Memory
+          sizeLimit: 16Gi
