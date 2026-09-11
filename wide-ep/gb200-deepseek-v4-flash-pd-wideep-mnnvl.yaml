@@ -99,7 +99,6 @@ spec:
         value: >-
           --gpu-memory-utilization 0.8
           --trust-remote-code
-          --data-parallel-hybrid-lb
           --enable-ep-weight-filter
           --all2all-backend flashinfer_nvlink_two_sided
           --kv-cache-dtype fp8
@@ -169,7 +168,6 @@ spec:
         value: >-
           --gpu-memory-utilization 0.8
           --trust-remote-code
-          --data-parallel-hybrid-lb
           --enable-ep-weight-filter
           --all2all-backend flashinfer_nvlink_two_sided
           --kv-cache-dtype fp8
@@ -237,7 +235,6 @@ spec:
           value: >-
             --gpu-memory-utilization 0.8
             --trust-remote-code
-            --data-parallel-hybrid-lb
             --enable-ep-weight-filter
             --all2all-backend flashinfer_nvlink_two_sided
             --kv-cache-dtype fp8
@@ -304,7 +301,6 @@ spec:
           value: >-
             --gpu-memory-utilization 0.8
             --trust-remote-code
-            --data-parallel-hybrid-lb
             --enable-ep-weight-filter
             --all2all-backend flashinfer_nvlink_two_sided
             --kv-cache-dtype fp8
