@@ -97,7 +97,7 @@ spec:
         value: eth0
       - name: VLLM_ADDITIONAL_ARGS
         value: >-
-          --gpu-memory-utilization 0.8
+          --gpu-memory-utilization 0.75
           --trust-remote-code
           --enable-ep-weight-filter
           --all2all-backend flashinfer_nvlink_two_sided
@@ -166,7 +166,7 @@ spec:
         value: eth0
       - name: VLLM_ADDITIONAL_ARGS
         value: >-
-          --gpu-memory-utilization 0.8
+          --gpu-memory-utilization 0.75
           --trust-remote-code
           --enable-ep-weight-filter
           --all2all-backend flashinfer_nvlink_two_sided
@@ -250,7 +250,7 @@ spec:
         startupProbe:
           httpGet:
             path: /health
-            port: 8001
+            port: 8000
             scheme: HTTPS
           periodSeconds: 10
           timeoutSeconds: 5
@@ -258,7 +258,7 @@ spec:
         readinessProbe:
           httpGet:
             path: /health
-            port: 8001
+            port: 8000
             scheme: HTTPS
           periodSeconds: 1
           timeoutSeconds: 5
@@ -266,7 +266,7 @@ spec:
         livenessProbe:
           httpGet:
             path: /health
-            port: 8001
+            port: 8000
             scheme: HTTPS
           periodSeconds: 10
           timeoutSeconds: 5
