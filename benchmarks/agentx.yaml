@@ -27,6 +27,12 @@ spec:
         - import time; time.sleep(10**9)
         workingDir: /workspace
         env:
+        # OpenShift assigns an arbitrary UID, so caches must live on the
+        # writable workspace volume rather than the image's /app home.
+        - name: HOME
+          value: /workspace
+        - name: XDG_CACHE_HOME
+          value: /workspace/.cache
         - name: AIPERF_DATASET_WEKA_LIVE_ASSISTANT_RESPONSES
           value: "1"
         - name: HF_HOME
