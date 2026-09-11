@@ -255,6 +255,22 @@ spec:
           periodSeconds: 10
           timeoutSeconds: 5
           failureThreshold: 270
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8001
+            scheme: HTTPS
+          periodSeconds: 1
+          timeoutSeconds: 5
+          failureThreshold: 2
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8001
+            scheme: HTTPS
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 10
         volumeMounts:
         - name: dshm
           mountPath: /dev/shm
