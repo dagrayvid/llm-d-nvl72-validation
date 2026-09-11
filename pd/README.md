@@ -19,8 +19,10 @@ directories.
 These runs used two prefill Pods and one decode Pod (`2P/1D`) and the
 `semianalysisai/cc-traces-weka-062126` dataset with subagents.
 
-| Results directory | Concurrency | Submission status |
+These are experimental benchmark results.
+
+| Results directory | Concurrency | Run mode |
 | --- | ---: | --- |
-| `2ptp4-1dtp4-agentx-c8-smoke/` | 8 | Invalid smoke test (`unsafe_override`) |
-| `2ptp4-1dtp4-agentx-c16/` | 16 | Valid |
-| `2ptp4-1dtp4-agentx-c32/` | 32 | Valid |
+| `2ptp4-1dtp4-agentx-c8-smoke/` | 8 | Short smoke test (`unsafe_override`) |
+| `2ptp4-1dtp4-agentx-c16/` | 16 | Standard-duration test |
+| `2ptp4-1dtp4-agentx-c32/` | 32 | Standard-duration test |
