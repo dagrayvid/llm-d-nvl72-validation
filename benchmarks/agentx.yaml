@@ -19,7 +19,7 @@ spec:
       containers:
       - name: aiperf
         # Official multi-architecture image; GB200 Grace nodes require arm64.
-        image: nvcr.io/nvidia/ai-dynamo/aiperf:0.11.0
+        image: nvcr.io/nvidia/ai-dynamo/aiperf:0.12.0
         imagePullPolicy: IfNotPresent
         command:
         - /opt/aiperf/venv/bin/python
