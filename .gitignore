@@ -3,5 +3,5 @@
 **/.cache/
 *.pyc
 
-# Keep the locally expanded result while committing its lossless .json.gz copy.
-multi-node-tp/deepseek-r1-0528/benchmarks.json
+# Keep raw benchmark exports locally; commit CSV or compressed JSON instead.
+**/benchmarks.json
