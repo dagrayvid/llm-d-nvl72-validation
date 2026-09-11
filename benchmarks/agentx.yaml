@@ -22,8 +22,9 @@ spec:
         image: nvcr.io/nvidia/ai-dynamo/aiperf:0.11.0
         imagePullPolicy: IfNotPresent
         command:
-        - sleep
-        - infinity
+        - /opt/aiperf/venv/bin/python
+        - -c
+        - import time; time.sleep(10**9)
         workingDir: /workspace
         env:
         - name: AIPERF_DATASET_WEKA_LIVE_ASSISTANT_RESPONSES
