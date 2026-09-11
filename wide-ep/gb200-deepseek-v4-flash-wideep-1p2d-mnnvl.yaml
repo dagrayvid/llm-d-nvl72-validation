@@ -1,0 +1,342 @@
+# Three-node disaggregated WideEP deployment for DeepSeek-V4-Flash on GB200.
+#
+# Initial topology:
+#   prefill: 1 LWS group x 1 Pod  x 4 GPUs (DP=4, DP-local=4, TP=1, EP=4)
+#   decode:  1 LWS group x 2 Pods x 4 GPUs (DP=8, DP-local=4, TP=1, EP=8)
+#
+# The worker fields cause KServe to create LeaderWorkerSets and select its
+# standard prefill/decode data-parallel launchers. FlashInfer's two-sided
+# NVLink all-to-all backend is used for the MNNVL expert-parallel groups.
+apiVersion: resource.k8s.io/v1
+kind: ResourceClaimTemplate
+metadata:
+  name: deepseek-v4-flash-wideep-gpus
+  namespace: dagray-dev
+spec:
+  spec:
+    devices:
+      requests:
+      - name: gpus
+        exactly:
+          deviceClassName: gpu.nvidia.com
+          allocationMode: ExactCount
+          count: 4
+---
+apiVersion: resource.nvidia.com/v1beta1
+kind: ComputeDomain
+metadata:
+  name: deepseek-v4-flash-wideep-compute-domain
+  namespace: dagray-dev
+spec:
+  numNodes: 3
+  channel:
+    resourceClaimTemplate:
+      name: deepseek-v4-flash-wideep-compute-domain-channel
+---
+apiVersion: serving.kserve.io/v1alpha2
+kind: LLMInferenceService
+metadata:
+  name: deepseek-v4-flash-wideep
+  namespace: dagray-dev
+spec:
+  baseRefs:
+  - name: v3-5-0-kserve-config-llm-multi-node-template-nvidia-cuda
+  model:
+    name: RedHatAI/DeepSeek-V4-Flash-NVFP4-FP8
+    uri: pvc://mx-model-cache/DeepSeek-V4-Flash-NVFP4-FP8
+
+  # Decode: one two-Pod LWS group with four local DP/EP ranks per Pod.
+  replicas: 1
+  parallelism:
+    tensor: 1
+    data: 8
+    dataLocal: 4
+    expert: true
+
+  router:
+    gateway: {}
+    route: {}
+    scheduler:
+      template:
+        containers:
+        - name: main
+
+  template:
+    resourceClaims:
+    - name: gpus
+      resourceClaimTemplateName: deepseek-v4-flash-wideep-gpus
+    - name: compute-domain-channel
+      resourceClaimTemplateName: deepseek-v4-flash-wideep-compute-domain-channel
+    containers:
+    - name: main
+      image: registry.redhat.io/rhaii/vllm-cuda-rhel9:3.5.1-1788369031
+      env:
+      - name: VLLM_NIXL_SIDE_CHANNEL_HOST
+        valueFrom:
+          fieldRef:
+            fieldPath: status.podIP
+      - name: UCX_CUDA_IPC_ENABLE_MNNVL
+        value: "y"
+      - name: VLLM_ENGINE_READY_TIMEOUT_S
+        value: "3600"
+      - name: NCCL_MNNVL_ENABLE
+        value: "1"
+      - name: NCCL_NVLS_ENABLE
+        value: "1"
+      - name: NCCL_CUMEM_ENABLE
+        value: "1"
+      - name: NCCL_P2P_LEVEL
+        value: NVL
+      - name: VLLM_USE_NCCL_SYMM_MEM
+        value: "0"
+      - name: VLLM_RANDOMIZE_DP_DUMMY_INPUTS
+        value: "1"
+      - name: GLOO_SOCKET_IFNAME
+        value: eth0
+      - name: NCCL_SOCKET_IFNAME
+        value: eth0
+      - name: VLLM_ADDITIONAL_ARGS
+        value: >-
+          --gpu-memory-utilization 0.8
+          --trust-remote-code
+          --enable-ep-weight-filter
+          --all2all-backend flashinfer_nvlink_two_sided
+          --kv-cache-dtype fp8
+          --enable-cumem-allocator
+          --kv-transfer-config '{"kv_connector":"NixlConnector","kv_role":"kv_both"}'
+      resources:
+        claims:
+        - name: gpus
+        - name: compute-domain-channel
+        requests:
+          cpu: "16"
+          memory: 32Gi
+      startupProbe:
+        httpGet:
+          path: /health
+          port: 8001
+          scheme: HTTPS
+        periodSeconds: 10
+        timeoutSeconds: 5
+        failureThreshold: 270
+      volumeMounts:
+      - name: dshm
+        mountPath: /dev/shm
+    volumes:
+    - name: dshm
+      emptyDir:
+        medium: Memory
+        sizeLimit: 16Gi
+
+  # The worker template produces the second decode Pod and selects KServe's
+  # headless data-parallel worker launcher.
+  worker:
+    resourceClaims:
+    - name: gpus
+      resourceClaimTemplateName: deepseek-v4-flash-wideep-gpus
+    - name: compute-domain-channel
+      resourceClaimTemplateName: deepseek-v4-flash-wideep-compute-domain-channel
+    containers:
+    - name: main
+      image: registry.redhat.io/rhaii/vllm-cuda-rhel9:3.5.1-1788369031
+      env:
+      - name: VLLM_NIXL_SIDE_CHANNEL_HOST
+        valueFrom:
+          fieldRef:
+            fieldPath: status.podIP
+      - name: UCX_CUDA_IPC_ENABLE_MNNVL
+        value: "y"
+      - name: VLLM_ENGINE_READY_TIMEOUT_S
+        value: "3600"
+      - name: NCCL_MNNVL_ENABLE
+        value: "1"
+      - name: NCCL_NVLS_ENABLE
+        value: "1"
+      - name: NCCL_CUMEM_ENABLE
+        value: "1"
+      - name: NCCL_P2P_LEVEL
+        value: NVL
+      - name: VLLM_USE_NCCL_SYMM_MEM
+        value: "0"
+      - name: VLLM_RANDOMIZE_DP_DUMMY_INPUTS
+        value: "1"
+      - name: GLOO_SOCKET_IFNAME
+        value: eth0
+      - name: NCCL_SOCKET_IFNAME
+        value: eth0
+      - name: VLLM_ADDITIONAL_ARGS
+        value: >-
+          --gpu-memory-utilization 0.8
+          --trust-remote-code
+          --enable-ep-weight-filter
+          --all2all-backend flashinfer_nvlink_two_sided
+          --kv-cache-dtype fp8
+          --enable-cumem-allocator
+          --kv-transfer-config '{"kv_connector":"NixlConnector","kv_role":"kv_both"}'
+      resources:
+        claims:
+        - name: gpus
+        - name: compute-domain-channel
+        requests:
+          cpu: "16"
+          memory: 32Gi
+      volumeMounts:
+      - name: dshm
+        mountPath: /dev/shm
+    volumes:
+    - name: dshm
+      emptyDir:
+        medium: Memory
+        sizeLimit: 16Gi
+
+  # Prefill: one four-GPU LWS leader Pod with four local DP/EP ranks.
+  prefill:
+    replicas: 1
+    parallelism:
+      tensor: 1
+      data: 4
+      dataLocal: 4
+      expert: true
+    template:
+      resourceClaims:
+      - name: gpus
+        resourceClaimTemplateName: deepseek-v4-flash-wideep-gpus
+      - name: compute-domain-channel
+        resourceClaimTemplateName: deepseek-v4-flash-wideep-compute-domain-channel
+      containers:
+      - name: main
+        image: registry.redhat.io/rhaii/vllm-cuda-rhel9:3.5.1-1788369031
+        env:
+        - name: VLLM_NIXL_SIDE_CHANNEL_HOST
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        - name: UCX_CUDA_IPC_ENABLE_MNNVL
+          value: "y"
+        - name: VLLM_ENGINE_READY_TIMEOUT_S
+          value: "3600"
+        - name: NCCL_MNNVL_ENABLE
+          value: "1"
+        - name: NCCL_NVLS_ENABLE
+          value: "1"
+        - name: NCCL_CUMEM_ENABLE
+          value: "1"
+        - name: NCCL_P2P_LEVEL
+          value: NVL
+        - name: VLLM_USE_NCCL_SYMM_MEM
+          value: "0"
+        - name: VLLM_RANDOMIZE_DP_DUMMY_INPUTS
+          value: "1"
+        - name: GLOO_SOCKET_IFNAME
+          value: eth0
+        - name: NCCL_SOCKET_IFNAME
+          value: eth0
+        - name: VLLM_ADDITIONAL_ARGS
+          value: >-
+            --gpu-memory-utilization 0.75
+            --trust-remote-code
+            --enable-ep-weight-filter
+            --all2all-backend flashinfer_nvlink_two_sided
+            --kv-cache-dtype fp8
+            --enable-cumem-allocator
+            --kv-transfer-config '{"kv_connector":"NixlConnector","kv_role":"kv_both"}'
+        resources:
+          claims:
+          - name: gpus
+          - name: compute-domain-channel
+          requests:
+            cpu: "16"
+            memory: 32Gi
+        startupProbe:
+          httpGet:
+            path: /health
+            port: 8000
+            scheme: HTTPS
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 270
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+            scheme: HTTPS
+          periodSeconds: 1
+          timeoutSeconds: 5
+          failureThreshold: 2
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+            scheme: HTTPS
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 10
+        volumeMounts:
+        - name: dshm
+          mountPath: /dev/shm
+      volumes:
+      - name: dshm
+        emptyDir:
+          medium: Memory
+          sizeLimit: 16Gi
+    # This remains present for the one-Pod prefill group so KServe uses its
+    # LWS data-parallel launcher consistently with the decode group.
+    worker:
+      resourceClaims:
+      - name: gpus
+        resourceClaimTemplateName: deepseek-v4-flash-wideep-gpus
+      - name: compute-domain-channel
+        resourceClaimTemplateName: deepseek-v4-flash-wideep-compute-domain-channel
+      containers:
+      - name: main
+        image: registry.redhat.io/rhaii/vllm-cuda-rhel9:3.5.1-1788369031
+        env:
+        - name: VLLM_NIXL_SIDE_CHANNEL_HOST
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        - name: UCX_CUDA_IPC_ENABLE_MNNVL
+          value: "y"
+        - name: VLLM_ENGINE_READY_TIMEOUT_S
+          value: "3600"
+        - name: NCCL_MNNVL_ENABLE
+          value: "1"
+        - name: NCCL_NVLS_ENABLE
+          value: "1"
+        - name: NCCL_CUMEM_ENABLE
+          value: "1"
+        - name: NCCL_P2P_LEVEL
+          value: NVL
+        - name: VLLM_USE_NCCL_SYMM_MEM
+          value: "0"
+        - name: VLLM_RANDOMIZE_DP_DUMMY_INPUTS
+          value: "1"
+        - name: GLOO_SOCKET_IFNAME
+          value: eth0
+        - name: NCCL_SOCKET_IFNAME
+          value: eth0
+        - name: VLLM_ADDITIONAL_ARGS
+          value: >-
+            --gpu-memory-utilization 0.75
+            --trust-remote-code
+            --enable-ep-weight-filter
+            --all2all-backend flashinfer_nvlink_two_sided
+            --kv-cache-dtype fp8
+            --enable-cumem-allocator
+            --kv-transfer-config '{"kv_connector":"NixlConnector","kv_role":"kv_both"}'
+        resources:
+          claims:
+          - name: gpus
+          - name: compute-domain-channel
+          requests:
+            cpu: "16"
+            memory: 32Gi
+        volumeMounts:
+        - name: dshm
+          mountPath: /dev/shm
+      volumes:
+      - name: dshm
+        emptyDir:
+          medium: Memory
+          sizeLimit: 16Gi
+
