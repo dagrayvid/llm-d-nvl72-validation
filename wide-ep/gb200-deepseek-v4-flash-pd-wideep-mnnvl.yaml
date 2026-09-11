@@ -77,8 +77,6 @@ spec:
             fieldPath: status.podIP
       - name: UCX_CUDA_IPC_ENABLE_MNNVL
         value: "y"
-      - name: VLLM_ALL2ALL_BACKEND
-        value: flashinfer_nvlink_two_sided
       - name: VLLM_ENGINE_READY_TIMEOUT_S
         value: "3600"
       - name: NCCL_MNNVL_ENABLE
@@ -103,6 +101,7 @@ spec:
           --trust-remote-code
           --data-parallel-hybrid-lb
           --enable-ep-weight-filter
+          --all2all-backend flashinfer_nvlink_two_sided
           --kv-cache-dtype fp8
           --enable-cumem-allocator
           --kv-transfer-config '{"kv_connector":"NixlConnector","kv_role":"kv_both"}'
@@ -148,8 +147,6 @@ spec:
             fieldPath: status.podIP
       - name: UCX_CUDA_IPC_ENABLE_MNNVL
         value: "y"
-      - name: VLLM_ALL2ALL_BACKEND
-        value: flashinfer_nvlink_two_sided
       - name: VLLM_ENGINE_READY_TIMEOUT_S
         value: "3600"
       - name: NCCL_MNNVL_ENABLE
@@ -174,6 +171,7 @@ spec:
           --trust-remote-code
           --data-parallel-hybrid-lb
           --enable-ep-weight-filter
+          --all2all-backend flashinfer_nvlink_two_sided
           --kv-cache-dtype fp8
           --enable-cumem-allocator
           --kv-transfer-config '{"kv_connector":"NixlConnector","kv_role":"kv_both"}'
@@ -217,8 +215,6 @@ spec:
               fieldPath: status.podIP
         - name: UCX_CUDA_IPC_ENABLE_MNNVL
           value: "y"
-        - name: VLLM_ALL2ALL_BACKEND
-          value: flashinfer_nvlink_two_sided
         - name: VLLM_ENGINE_READY_TIMEOUT_S
           value: "3600"
         - name: NCCL_MNNVL_ENABLE
@@ -243,6 +239,7 @@ spec:
             --trust-remote-code
             --data-parallel-hybrid-lb
             --enable-ep-weight-filter
+            --all2all-backend flashinfer_nvlink_two_sided
             --kv-cache-dtype fp8
             --enable-cumem-allocator
             --kv-transfer-config '{"kv_connector":"NixlConnector","kv_role":"kv_both"}'
@@ -285,8 +282,6 @@ spec:
               fieldPath: status.podIP
         - name: UCX_CUDA_IPC_ENABLE_MNNVL
           value: "y"
-        - name: VLLM_ALL2ALL_BACKEND
-          value: flashinfer_nvlink_two_sided
         - name: VLLM_ENGINE_READY_TIMEOUT_S
           value: "3600"
         - name: NCCL_MNNVL_ENABLE
@@ -311,6 +306,7 @@ spec:
             --trust-remote-code
             --data-parallel-hybrid-lb
             --enable-ep-weight-filter
+            --all2all-backend flashinfer_nvlink_two_sided
             --kv-cache-dtype fp8
             --enable-cumem-allocator
             --kv-transfer-config '{"kv_connector":"NixlConnector","kv_role":"kv_both"}'
