@@ -11,9 +11,13 @@ data:
     : "${PROMPT_TOKENS:?PROMPT_TOKENS must be set}"
     : "${OUTPUT_TOKENS:?OUTPUT_TOKENS must be set}"
 
+    if [[ -z "${GUIDELLM_PROFILE:-}" ]]; then
+      GUIDELLM_PROFILE='{"kind":"concurrent","streams":[1,2,4,8]}'
+    fi
+
     guidellm run \
       --backend "kind=openai_http,target=${LLMISVC_URL}" \
-      --profile "${GUIDELLM_PROFILE:-{\"kind\":\"concurrent\",\"streams\":[1,2,4,8]}}" \
+      --profile "${GUIDELLM_PROFILE}" \
       --data "kind=synthetic_text,prompt_tokens=${PROMPT_TOKENS},output_tokens=${OUTPUT_TOKENS}" \
       --constraint "kind=max_duration,seconds=${BENCHMARK_DURATION:-120}"
 ---

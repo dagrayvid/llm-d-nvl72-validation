@@ -1,0 +1,41 @@
+# DRA resources for the two-node Nemotron-3 Super P/D deployment.
+apiVersion: resource.k8s.io/v1
+kind: ResourceClaimTemplate
+metadata:
+  name: nemotron3-super-pd-gpus-tp2
+  namespace: dagray-dev
+spec:
+  spec:
+    devices:
+      requests:
+      - name: gpus
+        exactly:
+          deviceClassName: gpu.nvidia.com
+          allocationMode: ExactCount
+          count: 2
+---
+apiVersion: resource.k8s.io/v1
+kind: ResourceClaimTemplate
+metadata:
+  name: nemotron3-super-pd-gpus-tp4
+  namespace: dagray-dev
+spec:
+  spec:
+    devices:
+      requests:
+      - name: gpus
+        exactly:
+          deviceClassName: gpu.nvidia.com
+          allocationMode: ExactCount
+          count: 4
+---
+apiVersion: resource.nvidia.com/v1beta1
+kind: ComputeDomain
+metadata:
+  name: nemotron3-super-pd-compute-domain
+  namespace: dagray-dev
+spec:
+  numNodes: 2
+  channel:
+    resourceClaimTemplate:
+      name: nemotron3-super-pd-compute-domain-channel
