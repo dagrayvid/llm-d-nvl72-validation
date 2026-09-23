@@ -31,12 +31,17 @@ These are experimental benchmark results.
 
 ## Multiple model pods on one ComputeDomain node
 
-This workaround is not required merely because prefill and decode use different
-tensor-parallel sizes. Heterogeneous TP is handled by vLLM/NIXL; for this hybrid
-Nemotron model, `VLLM_SSM_CONV_STATE_LAYOUT=DS` also keeps the transferred Mamba
-convolution state layout compatible between TP2 prefill and TP4 decode. The
-shared claim is required because two separate TP2 prefill Pods are co-located on
-one GB200 node and both need access to that node's ComputeDomain IMEX channel.
+The Nemotron deployment places two independent TP2 prefill Pods on one GB200
+node and one TP4 decode Pod on a second node. All three Pods participate in the
+same two-node ComputeDomain and therefore need access to its IMEX channel. The
+two co-located prefill Pods expose a limitation in the normal DRA claim flow and
+require the shared-channel workaround described below.
+
+The workaround is needed because multiple Pods share a ComputeDomain node, not
+because the prefill and decode engines use different tensor-parallel sizes.
+vLLM/NIXL supports the TP2-to-TP4 transfer. For this hybrid Nemotron model,
+`VLLM_SSM_CONV_STATE_LAYOUT=DS` also keeps the transferred Mamba convolution
+state layout compatible between the two engine shapes.
 
 The ComputeDomain-generated channel `ResourceClaimTemplate` creates a distinct
 channel claim for every Pod. With the NVIDIA DRA driver used in this cluster,
